@@ -15,7 +15,7 @@ require (
 	github.com/onsi/gomega v1.32.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/pflag v1.0.5
-	github.com/vmware-tanzu/vm-operator/api v1.8.5
+	github.com/vmware-tanzu/vm-operator/api v1.8.6
 	github.com/vmware-tanzu/vm-operator/external/tanzu-topology v0.0.0-20231214185006-5477585eebfd
 	github.com/vmware/govmomi v0.36.3
 	golang.org/x/crypto v0.22.0
