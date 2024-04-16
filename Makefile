@@ -188,6 +188,7 @@ REGISTRY ?= gcr.io/$(shell gcloud config get-value project)
 PROD_REGISTRY ?= registry.k8s.io/cluster-api-vsphere
 
 STAGING_REGISTRY ?= gcr.io/k8s-staging-capi-vsphere
+GHCR_REGISTRY ?= ghcr.io/mesosphere/cluster-api-provider-vsphere
 STAGING_BUCKET ?= artifacts.k8s-staging-capi-vsphere.appspot.com
 
 # core
@@ -499,7 +500,7 @@ e2e: $(GINKGO) $(KUSTOMIZE) $(KIND) $(GOVC) ## Run e2e tests
 ##@ release:
 
 ## latest git tag for the commit, e.g., v0.3.10
-RELEASE_TAG ?= $(shell git describe --abbrev=0 2>/dev/null)
+RELEASE_TAG ?= $(shell git describe --tags --always 2>/dev/null)
 ifneq (,$(findstring -,$(RELEASE_TAG)))
     PRE_RELEASE=true
 endif
@@ -606,6 +607,11 @@ generate-flavors: $(FLAVOR_DIR)
 .PHONY: release-staging
 release-staging: ## Build and push container images to the staging registry
 	REGISTRY=$(STAGING_REGISTRY) $(MAKE) docker-build-all docker-push-all release-alias-tag
+
+.PHONY: release-ghcr
+release-ghcr: ## Build and push container images to the ghcr.io
+	REGISTRY=$(GHCR_REGISTRY) TAG=$(RELEASE_TAG) $(MAKE) docker-build-all docker-push-all
+
 
 .PHONY: release-alias-tag
 release-alias-tag: ## Add the release alias tag to the last build tag
