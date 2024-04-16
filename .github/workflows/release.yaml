@@ -28,7 +28,7 @@ jobs:
           go-version: ${{ env.go_version }}
       - name: generate release artifacts
         run: |
-          make release
+          PROD_REGISTRY="ghcr.io/mesosphere/cluster-api-provider-vsphere" make release
       - name: generate release notes
         run: |
           make generate-release-notes
